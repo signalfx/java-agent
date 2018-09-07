@@ -1,0 +1,9 @@
+RULE Redis Lettuce Client
+CLASS io.lettuce.core.RedisClient
+METHOD connect()
+HELPER io.opentracing.contrib.agent.OpenTracingHelper
+AT EXIT
+IF TRUE
+DO
+  return new io.opentracing.contrib.redis.lettuce.TracingStatefulRedisConnection($!, getTracer(), false);
+ENDRULE
